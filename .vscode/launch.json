@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-MvcLoginDemoApplication<codespace-demo>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.mvc.login.config.MvcLoginDemoApplication",
+            "projectName": "codespace-demo",
+            "args": ""
+        }
+    ]
+}
