@@ -1,5 +1,6 @@
 package com.mvc.login.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class UserAccount {
 	@JoinColumn(name = "account_type")
 	private MoneyTypes moneyType;
 
+	@Column(name = "user_id")
 	private Long userId;
 
 	private Integer isDeleted = 0;

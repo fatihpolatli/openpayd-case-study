@@ -29,7 +29,7 @@ public class DataInitialize {
 	@Autowired
 	IUserAccountDao userAccountDao;
 
-	@PostConstruct
+	//@PostConstruct
 	private void init() throws Exception {
 
 		MoneyTypes t = new MoneyTypes();
@@ -80,7 +80,7 @@ public class DataInitialize {
 		
 
 		try {
-			registeredUser = userService.registerNewUserAccount(u);
+	//		registeredUser = userService.registerNewUserAccount(u);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -89,14 +89,14 @@ public class DataInitialize {
 		ac.setUserId(registeredUser.getId());
 		
 		
-		userAccountDao.save(ac);
+	//	userAccountDao.save(ac);
 
 		
 		User registeredUser2 = null;
 
 		
 		try {
-			registeredUser2 = userService.registerNewUserAccount(u2);
+	//		registeredUser2 = userService.registerNewUserAccount(u2);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -107,7 +107,7 @@ public class DataInitialize {
 		ac2.setUserId(registeredUser2.getId());
 		
 
-		userAccountDao.save(ac2);
+	//	userAccountDao.save(ac2);
 		
 		System.out.println(((UserAccount) userService.findByUserName("test12345").getAccounts().toArray()[0]).getUserId());
 	}

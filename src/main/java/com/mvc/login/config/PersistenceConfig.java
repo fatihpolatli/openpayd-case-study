@@ -1,4 +1,4 @@
-package com.mvc.login.config;
+/*package com.mvc.login.config;
 
 import javax.sql.DataSource;
 
@@ -27,3 +27,4 @@ public class PersistenceConfig {
 	}
 
 }
+*/
