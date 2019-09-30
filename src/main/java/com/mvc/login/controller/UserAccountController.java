@@ -76,7 +76,7 @@ public class UserAccountController {
 
 	}
 	
-	@PostMapping(value = "/currentBalance")
+	@PostMapping(value = "/current-balance")
 	public GenericResponse getCurrentBalance(@RequestBody BalanceDto balance) {
 
 		try {

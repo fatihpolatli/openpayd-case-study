@@ -1,15 +1,11 @@
 package com.mvc.login.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import com.mvc.login.dao.IAccountHistoryDao;
 import com.mvc.login.dao.IUserAccountDao;
@@ -28,9 +24,16 @@ import com.mvc.login.exception.AccountAlreadyExistException;
 import com.mvc.login.exception.DuplicateEmailException;
 import com.mvc.login.exception.NoUserException;
 import com.mvc.login.exception.NotEnoughBalanceException;
-import com.mvc.login.exception.TransactionActionException;
 import com.mvc.login.mock.BalanceLoader;
 import com.mvc.login.service.IUserService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements IUserService {
@@ -39,7 +42,7 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private IUserAccountDao userAccountDao;
-	
+
 	@Autowired
 	private IAccountHistoryDao accountHistoryDao;
 
@@ -49,6 +52,9 @@ public class UserService implements IUserService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@Autowired
+	JdbcUserDetailsManager jdbcUserDetailsManager;
+
 	@Transactional
 	@Override
 	public User registerNewUserAccount(UserDto accountDto) throws Exception {
@@ -56,10 +62,21 @@ public class UserService implements IUserService {
 		if (emailExist(accountDto.getEmail())) {
 			throw new DuplicateEmailException();
 		}
+
 		User user = new User();
 		user.setUsername(accountDto.getFirstName());
 		user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
 		user.setEmail(accountDto.getEmail());
+
+		// authorities to be granted
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+
+		org.springframework.security.core.userdetails.User userDetails = new org.springframework.security.core.userdetails.User(
+				user.getUsername(), user.getPassword(), authorities);
+
+		jdbcUserDetailsManager.createUser(userDetails);
+		jdbcUserDetailsManager.loadUserByUsername(user.getUsername());
 		return userDao.save(user);
 	}
 
@@ -79,24 +96,20 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public User createUserAccount(UserDto accountDto) {
-		User registered = null;
-		try {
-			registered = registerNewUserAccount(accountDto);
-		} catch (Exception e) {
-			return null;
-		}
-		return registered;
+	public User createUserAccount(UserDto accountDto) throws Exception {
+
+		return registerNewUserAccount(accountDto);
+
 	}
 
 	@Override
 	public Boolean deleteAccount(UserAccount account) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		User user = getUserInfo();
-		return  userAccountDao.delete(user.getId(), account.getMoneyType().getId());
+		return userAccountDao.delete(user.getId(), account.getMoneyType().getId());
 	}
-	
+
 	@Override
 	@Transactional
 	public User addAcount(UserAccount account) throws Exception {
@@ -109,13 +122,11 @@ public class UserService implements IUserService {
 
 		UserAccount existingAccount = null;
 		try {
-			
-			existingAccount  = getAccountInfo(accountTypeId, user.getId());
+
+			existingAccount = getAccountInfo(accountTypeId, user.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 
 		if (existingAccount != null) {
 
@@ -153,7 +164,7 @@ public class UserService implements IUserService {
 	private UserAccount getAccountInfo(Long accountId, Long userId) throws Exception {
 
 		return userAccountDao.findByAccountTypeAndUserId(accountId, userId);
-		
+
 	}
 
 	@Override
@@ -176,9 +187,8 @@ public class UserService implements IUserService {
 		return addSubtractBalanceByUser(user, balance);
 
 	}
-	
-	public Boolean addSubtractBalanceByUser(User user, BalanceDto balance) throws Exception {
 
+	public Boolean addSubtractBalanceByUser(User user, BalanceDto balance) throws Exception {
 
 		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
 
@@ -189,7 +199,7 @@ public class UserService implements IUserService {
 		if (balance.getType() == AccountTransactionType.ADD) {
 
 			currentBalance = currentBalance + balanceAmount;
-			
+
 			accountHistoryDao.additionLog(balanceAmount, userAccount);
 
 		} else if (balance.getType() == AccountTransactionType.SUBTRACT) {
@@ -197,39 +207,39 @@ public class UserService implements IUserService {
 			if (currentBalance >= balanceAmount) {
 
 				currentBalance = currentBalance - balanceAmount;
-				
+
 				accountHistoryDao.subtractLog(balanceAmount, userAccount);
-			}else {
-				
+			} else {
+
 				throw new NotEnoughBalanceException();
 			}
 		}
-		
+
 		userAccount.setBalance(currentBalance);
-		
+
 		userAccountDao.save(userAccount);
-		
+
 		return true;
 
 	}
 
 	@Override
 	public Long getCurrentBalance(BalanceDto balance) throws Exception {
-		
+
 		User user = getUserInfo();
-		
+
 		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
-		
+
 		return userAccount.getBalance();
 	}
-	
+
 	@Override
 	public Set<AccountHistory> getAccountHistory(BalanceDto balance) throws Exception {
-		
+
 		User user = getUserInfo();
-		
+
 		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
-		
+
 		return accountHistoryDao.findByAccount(userAccount);
 	}
 
@@ -239,28 +249,25 @@ public class UserService implements IUserService {
 		return userDao.findAll();
 	}
 
-	@Override	
+	@Override
 	@Transactional
 	public Boolean transferMoney(TransferDto transferData) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 		User targetUser = userDao.findByUsername(transferData.getTargetUser().getUsername());
-		
+
 		BalanceDto balanceData = transferData.getBalance();
-		
-		
+
 		balanceData.setType(AccountTransactionType.SUBTRACT);
-		
+
 		addSubtractBalance(balanceData);
-	
+
 		balanceData.setType(AccountTransactionType.ADD);
-		
+
 		balanceData.setAccount(transferData.getTargetAccount());
-		
-		
+
 		addSubtractBalanceByUser(targetUser, balanceData);
-		
-		
+
 		return true;
 	}
 
@@ -268,17 +275,15 @@ public class UserService implements IUserService {
 	public Boolean loadBalance(BalanceDto balance) throws Exception {
 		// TODO Auto-generated method stub
 		Boolean result = BalanceLoader.loadBalance();
-		
-		if(result) {
-			
+
+		if (result) {
+
 			balance.setType(AccountTransactionType.ADD);
-			
+
 			return addSubtractBalance(balance);
 		}
-		
+
 		return false;
 	}
-
-	
 
 }

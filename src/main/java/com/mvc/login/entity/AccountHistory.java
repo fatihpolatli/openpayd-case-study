@@ -17,7 +17,7 @@ public class AccountHistory {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.REFRESH)
+	@ManyToOne(cascade = { CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST })
 	@JoinColumn(name = "account_id")
 	private UserAccount account;
 

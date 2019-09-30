@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Where;
@@ -22,8 +22,8 @@ public class UserAccount {
 
 	private Long balance = 0L;
 
-	@ManyToOne
-	@JoinColumn(name = "account_type")
+	@OneToOne
+	@JoinColumn(name = "account_type_id")
 	private MoneyTypes moneyType;
 
 	@Column(name = "user_id")

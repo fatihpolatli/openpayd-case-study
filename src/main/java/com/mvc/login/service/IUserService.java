@@ -12,6 +12,8 @@ import com.mvc.login.entity.UserAccount;
 import com.mvc.login.entity.UserWithoutPassword;
 import com.mvc.login.exception.NoUserException;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 public interface IUserService {
 	
 	User registerNewUserAccount(UserDto accountDto)     
@@ -19,7 +21,7 @@ public interface IUserService {
 
 	User findByUserName(String username) throws NoUserException;
 
-	User createUserAccount(UserDto accountDto);
+	User createUserAccount(UserDto accountDto)  throws Exception;
 
 	User addAcount(UserAccount account) throws Exception;
 
