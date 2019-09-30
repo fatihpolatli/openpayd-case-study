@@ -8,14 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="MONEY_TYPES")
+@Table(name = "MONEY_TYPES")
 public class MoneyTypes {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
-	@Column(name="money_label", nullable=false)
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(nullable = false)
 	private String moneyLabel;
 
 	public Long getId() {
@@ -33,6 +33,5 @@ public class MoneyTypes {
 	public void setMoneyLabel(String moneyLabel) {
 		this.moneyLabel = moneyLabel;
 	}
-	
 
 }

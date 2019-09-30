@@ -1,7 +1,6 @@
 package com.mvc.login.entity;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,23 +10,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="ACCOUNT_HISTORY")
+@Table(name = "ACCOUNT_HISTORY")
 public class AccountHistory {
-	
+
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-	
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="account_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@ManyToOne(cascade = CascadeType.REFRESH)
+	@JoinColumn(name = "account_id")
 	private UserAccount account;
-	
-	@Column(name="action_date")
+
 	private Long actionDate = System.currentTimeMillis();
-	
-	
+
 	private Long amount;
-	
+
 	private Integer type;
 
 	public Long getId() {
@@ -69,7 +66,5 @@ public class AccountHistory {
 	public void setActionDate(Long actionDate) {
 		this.actionDate = actionDate;
 	}
-
-	
 
 }

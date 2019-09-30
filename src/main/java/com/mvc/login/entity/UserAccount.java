@@ -1,6 +1,5 @@
 package com.mvc.login.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,24 +12,21 @@ import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "USER_ACCOUNT")
-@Where(clause="is_deleted = 0")
+@Where(clause = "is_deleted = 0")
 public class UserAccount {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name = "balance")
 	private Long balance = 0L;
 
 	@ManyToOne
 	@JoinColumn(name = "account_type")
 	private MoneyTypes moneyType;
 
-	@Column(name = "user_id")
 	private Long userId;
 
-	@Column(name="is_deleted")
 	private Integer isDeleted = 0;
 
 	public Integer getIsDeleted() {

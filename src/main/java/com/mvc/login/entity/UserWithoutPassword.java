@@ -12,25 +12,24 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="USER")
+@Table(name = "USER")
 public class UserWithoutPassword {
- 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
- 
-    @Column(nullable = false, unique = true)
-    private String username;
- 
-    
-    private String email;
-    
-    private String enabled = "true";
-    
-    @OneToMany
-    @JoinColumn(name="user_id", nullable=true)
-    private Set<UserAccount> accounts;
-    
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	@Column(nullable = false, unique = true)
+	private String username;
+
+	private String email;
+
+	private String enabled = "true";
+
+	@OneToMany
+	@JoinColumn(name = "user_id", nullable = true)
+	private Set<UserAccount> accounts;
+
 	public Long getId() {
 		return id;
 	}
@@ -55,7 +54,6 @@ public class UserWithoutPassword {
 		this.username = username;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
@@ -72,8 +70,4 @@ public class UserWithoutPassword {
 		this.enabled = enabled;
 	}
 
-	
-	
-	
- 
 }
