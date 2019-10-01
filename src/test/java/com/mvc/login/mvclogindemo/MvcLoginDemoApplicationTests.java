@@ -38,12 +38,10 @@ import com.mvc.login.controller.RegistrationController;
 import com.mvc.login.dto.BalanceDto;
 import com.mvc.login.dto.TransferDto;
 import com.mvc.login.dto.UserDto;
-import com.mvc.login.entity.MoneyTypes;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
 import com.mvc.login.entity.UserWithoutPassword;
 import com.mvc.login.enums.AccountTransactionType;
-import com.mvc.login.enums.MoneyTypesEnum;
 import com.mvc.login.service.IUserService;
 
 @RunWith(SpringRunner.class)

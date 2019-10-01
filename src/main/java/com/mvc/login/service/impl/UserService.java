@@ -10,16 +10,15 @@ import javax.transaction.Transactional;
 import com.mvc.login.dao.IAccountHistoryDao;
 import com.mvc.login.dao.IUserAccountDao;
 import com.mvc.login.dao.IUserDao;
-import com.mvc.login.dao.impl.MoneyTypesDao;
 import com.mvc.login.dto.BalanceDto;
 import com.mvc.login.dto.TransferDto;
 import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
-import com.mvc.login.entity.MoneyTypes;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
 import com.mvc.login.entity.UserWithoutPassword;
 import com.mvc.login.enums.AccountTransactionType;
+import com.mvc.login.enums.AccountTypeEnum;
 import com.mvc.login.exception.AccountAlreadyExistException;
 import com.mvc.login.exception.DuplicateEmailException;
 import com.mvc.login.exception.NoUserException;
@@ -45,9 +44,6 @@ public class UserService implements IUserService {
 
 	@Autowired
 	private IAccountHistoryDao accountHistoryDao;
-
-	@Autowired
-	private MoneyTypesDao moneyTypeDao;
 
 	@Autowired
 	PasswordEncoder passwordEncoder;
@@ -107,7 +103,7 @@ public class UserService implements IUserService {
 		// TODO Auto-generated method stub
 
 		User user = getUserInfo();
-		return userAccountDao.delete(user.getId(), account.getMoneyType().getId());
+		return userAccountDao.delete(user.getId(), account.getAccountType());
 	}
 
 	@Override
@@ -118,12 +114,10 @@ public class UserService implements IUserService {
 
 		Set<UserAccount> accounts = user.getAccounts();
 
-		Long accountTypeId = account.getMoneyType().getId();
-
 		UserAccount existingAccount = null;
 		try {
 
-			existingAccount = getAccountInfo(accountTypeId, user.getId());
+			existingAccount = getAccountInfo(account.getAccountType(), user.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,8 +126,6 @@ public class UserService implements IUserService {
 
 			throw new AccountAlreadyExistException();
 		}
-
-		MoneyTypes moneyType = moneyTypeDao.findById(accountTypeId);
 
 		if (accounts == null) {
 
@@ -144,7 +136,7 @@ public class UserService implements IUserService {
 
 		UserAccount userAccount = new UserAccount();
 
-		userAccount.setMoneyType(moneyType);
+		userAccount.setAccountType(account.getAccountType());
 
 		UserAccount persistentAccount = userAccountDao.save(userAccount);
 
@@ -161,9 +153,9 @@ public class UserService implements IUserService {
 		return findByUserName(username);
 	}
 
-	private UserAccount getAccountInfo(Long accountId, Long userId) throws Exception {
+	private UserAccount getAccountInfo(AccountTypeEnum accountType, Long userId) throws Exception {
 
-		return userAccountDao.findByAccountTypeAndUserId(accountId, userId);
+		return userAccountDao.findByAccountTypeAndUserId(accountType, userId);
 
 	}
 
@@ -190,7 +182,7 @@ public class UserService implements IUserService {
 
 	public Boolean addSubtractBalanceByUser(User user, BalanceDto balance) throws Exception {
 
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getAccountType(), user.getId());
 
 		Long currentBalance = userAccount.getBalance();
 
@@ -228,7 +220,7 @@ public class UserService implements IUserService {
 
 		User user = getUserInfo();
 
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getAccountType(), user.getId());
 
 		return userAccount.getBalance();
 	}
@@ -238,7 +230,7 @@ public class UserService implements IUserService {
 
 		User user = getUserInfo();
 
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getMoneyType().getId(), user.getId());
+		UserAccount userAccount = getAccountInfo(balance.getAccount().getAccountType(), user.getId());
 
 		return accountHistoryDao.findByAccount(userAccount);
 	}

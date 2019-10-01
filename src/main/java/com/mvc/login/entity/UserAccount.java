@@ -2,12 +2,14 @@ package com.mvc.login.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.mvc.login.enums.AccountTypeEnum;
 
 import org.hibernate.annotations.Where;
 
@@ -22,9 +24,8 @@ public class UserAccount {
 
 	private Long balance = 0L;
 
-	@OneToOne
-	@JoinColumn(name = "account_type_id")
-	private MoneyTypes moneyType;
+	@Enumerated(EnumType.STRING)
+	private AccountTypeEnum accountType;
 
 	@Column(name = "user_id")
 	private Long userId;
@@ -47,14 +48,6 @@ public class UserAccount {
 		this.userId = userId;
 	}
 
-	public MoneyTypes getMoneyType() {
-		return moneyType;
-	}
-
-	public void setMoneyType(MoneyTypes moneyType) {
-		this.moneyType = moneyType;
-	}
-
 	public Long getId() {
 		return id;
 	}
@@ -69,6 +62,14 @@ public class UserAccount {
 
 	public void setBalance(Long balance) {
 		this.balance = balance;
+	}
+
+	public AccountTypeEnum getAccountType() {
+		return accountType;
+	}
+
+	public void setAccountType(AccountTypeEnum accountType) {
+		this.accountType = accountType;
 	}
 
 }

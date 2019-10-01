@@ -32,11 +32,9 @@ public class RegistrationController {
 			registered = service.createUserAccount(accountDto);
 		}
 		if (result.hasErrors() || registered == null) {
-			// return new ModelAndView("registration", "user", accountDto);
 			return new GenericResponse(result.getAllErrors(), "error");
 		} else {
-			// return new ModelAndView("successRegister.html", "user", accountDto);
-			return new GenericResponse("success");
+			return new GenericResponse(registered);
 		}
 
 	}

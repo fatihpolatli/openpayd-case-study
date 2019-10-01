@@ -1,12 +1,12 @@
 package com.mvc.login.enums;
 
-public enum MoneyTypesEnum {
+public enum AccountTypeEnum {
 
-	TRY("1"), GBP("2");
+	DR("1"), CR("2");
 
 	private String val;
 
-	MoneyTypesEnum(String val) {
+	AccountTypeEnum(String val) {
 		this.val = val;
 	}
 

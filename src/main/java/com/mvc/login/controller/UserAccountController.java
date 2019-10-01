@@ -1,5 +1,11 @@
 package com.mvc.login.controller;
 
+import com.mvc.login.dto.BalanceDto;
+import com.mvc.login.dto.TransferDto;
+import com.mvc.login.entity.UserAccount;
+import com.mvc.login.service.IUserService;
+import com.mvc.login.util.GenericResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,19 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mvc.login.dto.BalanceDto;
-import com.mvc.login.dto.TransferDto;
-import com.mvc.login.entity.UserAccount;
-import com.mvc.login.service.IMoneyTypesService;
-import com.mvc.login.service.IUserService;
-import com.mvc.login.util.GenericResponse;
-
 @RestController
 @RequestMapping(path = "/restful/accounts")
 public class UserAccountController {
-
-	@Autowired
-	IMoneyTypesService moneyTypesService;
 
 	@Autowired
 	IUserService userService;
@@ -29,14 +25,13 @@ public class UserAccountController {
 	public GenericResponse addUserAccount(@RequestBody UserAccount account) {
 
 		try {
-			userService.addAcount(account);
-			return new GenericResponse(null, null, true);
+			return new GenericResponse(null, null, userService.addAcount(account));
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
 		}
 
 	}
-	
+
 	@PostMapping(value = "/delete")
 	public GenericResponse deleteUserAccount(@RequestBody UserAccount account) {
 
@@ -75,7 +70,7 @@ public class UserAccountController {
 		}
 
 	}
-	
+
 	@PostMapping(value = "/current-balance")
 	public GenericResponse getCurrentBalance(@RequestBody BalanceDto balance) {
 
@@ -87,7 +82,7 @@ public class UserAccountController {
 		}
 
 	}
-	
+
 	@PostMapping(value = "/history")
 	public GenericResponse getAccountHistory(@RequestBody BalanceDto balance) {
 
@@ -99,7 +94,7 @@ public class UserAccountController {
 		}
 
 	}
-	
+
 	@PostMapping(value = "/transfer")
 	public GenericResponse transferMoney(@RequestBody TransferDto transferData) {
 
@@ -111,7 +106,7 @@ public class UserAccountController {
 		}
 
 	}
-	
+
 	@PostMapping(value = "/loadBalance")
 	public GenericResponse loadBalance(@RequestBody BalanceDto balance) {
 

@@ -1,18 +1,18 @@
 package com.mvc.login.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.mvc.login.entity.UserAccount;
+import com.mvc.login.enums.AccountTypeEnum;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserAccountRespository extends JpaRepository<UserAccount, Long> {
 
-	UserAccount findByMoneyTypeId(Long accountTypeId);
+	UserAccount findByAccountType(AccountTypeEnum accountType);
 
-	UserAccount findByMoneyTypeIdAndUserId(Long accountId, Long userId);
+	UserAccount findByAccountTypeAndUserId(AccountTypeEnum accountType, Long userId);
 
-	void deleteByUserIdAndMoneyTypeId(Long userId, Long moneyTypeId);
+	void deleteByUserIdAndAccountType(Long userId, AccountTypeEnum accountType);
 
-	UserAccount findOneByUserIdAndMoneyTypeId(Long userId, Long moneyTypeId);
-	 
-   
+	UserAccount findOneByUserIdAndAccountType(Long userId, AccountTypeEnum accountType);
+
 }

@@ -15,6 +15,11 @@ public class GenericResponse {
 		super();
 		this.message = message;
 	}
+
+	public GenericResponse(Object data) {
+		super();
+		this.data = data;
+	}
 	
 
 

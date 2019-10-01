@@ -17,7 +17,7 @@ public class CardMockServer {
 
 	private ClientAndServer mockServer;
 
-//	@PostConstruct
+	@PostConstruct
 	public void startServer() {
 		mockServer = startClientAndServer(1080);
 		// new MockServerClient("", 8088)
