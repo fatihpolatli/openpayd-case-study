@@ -3,6 +3,7 @@ package com.mvc.login.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,6 +31,10 @@ public class User {
 	@JsonIgnore
 	private String password;
 
+	private String firstName;
+
+	private String lastName;
+
 	private String email;
 
 	private String enabled = "true";
@@ -36,6 +42,14 @@ public class User {
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
 	private Set<UserAccount> accounts = new HashSet<UserAccount>();
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "primary_address_id")
+	private Address primaryAddress;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "secondary_address_id")
+	private Address secondaryAddress;
 
 	public Long getId() {
 		return id;
@@ -83,6 +97,55 @@ public class User {
 
 	public void setEnabled(String enabled) {
 		this.enabled = enabled;
+	}
+
+	public Address getPrimaryAddress() {
+		return primaryAddress;
+	}
+
+	public void setPrimaryAddress(Address primaryAddress) {
+		this.primaryAddress = primaryAddress;
+	}
+
+	public Address getSecondaryAddress() {
+		return secondaryAddress;
+	}
+
+	public void setSecondaryAddress(Address secondaryAddress) {
+		this.secondaryAddress = secondaryAddress;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public User(Long id, String username, String password, String firstName, String lastName, String email,
+			String enabled, Set<UserAccount> accounts, Address primaryAddress, Address secondaryAddress) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.enabled = enabled;
+		this.accounts = accounts;
+		this.primaryAddress = primaryAddress;
+		this.secondaryAddress = secondaryAddress;
+	}
+
+	public User() {
 	}
 
 }

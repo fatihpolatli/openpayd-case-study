@@ -3,7 +3,6 @@ package com.mvc.login.dao;
 import java.util.List;
 
 import com.mvc.login.entity.User;
-import com.mvc.login.entity.UserWithoutPassword;
 import com.mvc.login.exception.NoUserException;
 
 public interface IUserDao {
@@ -14,6 +13,6 @@ public interface IUserDao {
 
 	User save(User user);
 
-	List<UserWithoutPassword> findAll();
+	List<User> findAll();
 
 }

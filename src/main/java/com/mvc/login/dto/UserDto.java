@@ -6,56 +6,58 @@ import javax.annotation.Nullable;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.hibernate.validator.constraints.Length;
-
-import com.mvc.login.entity.UserAccount;
 import com.mvc.login.validation.ValidEmail;
 import com.mvc.login.validation.ValidPassword;
 
+import org.hibernate.validator.constraints.Length;
+
 public class UserDto {
-	
+
 	private Long id;
-	
+
 	private String username;
 
-	
+	@NotNull
+	@NotEmpty
+	@Length(min = 3, message = "username have to be more than 3 characters")
+	private String firstName;
+
+	@NotEmpty
+	private String lastName;
 
 	@NotNull
-    @NotEmpty
-    @Length(min=3, message="username have to be more than 3 characters")
-    private String firstName;
-     
-    private String lastName;
-     
-    @NotNull
-    @NotEmpty
-    @ValidPassword
-    private String password;
-    private String matchingPassword;
-     
-    @NotNull
-    @NotEmpty
-    @ValidEmail
-    private String email;
-    
-    @Nullable
-    private List<UserAccount> accounts;
-    
-    public String getUsername() {
+	@NotEmpty
+	@ValidPassword
+	private String password;
+	private String matchingPassword;
+
+	@NotNull
+	@NotEmpty
+	@ValidEmail
+	private String email;
+
+	@Nullable
+	private List<UserAccountDto> accounts;
+
+	private AddressDto primaryAddress;
+
+	private AddressDto secondaryAddress;
+
+	public String getUsername() {
 		return username;
 	}
 
 	public void setUsername(String username) {
 		this.username = username;
 	}
-    
-    public Long getId() {
-  		return id;
-  	}
 
-  	public void setId(Long id) {
-  		this.id = id;
-  	}
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getFirstName() {
 		return firstName;
@@ -97,13 +99,50 @@ public class UserDto {
 		this.email = email;
 	}
 
-	public List<UserAccount> getAccounts() {
+	public void setAccounts(List<UserAccountDto> accounts) {
+		this.accounts = accounts;
+	}
+
+
+	public AddressDto getPrimaryAddress() {
+		return primaryAddress;
+	}
+
+	public void setPrimaryAddress(AddressDto primaryAddress) {
+		this.primaryAddress = primaryAddress;
+	}
+
+	public AddressDto getSecondaryAddress() {
+		return secondaryAddress;
+	}
+
+	public void setSecondaryAddress(AddressDto secondaryAddress) {
+		this.secondaryAddress = secondaryAddress;
+	}
+
+	public List<UserAccountDto> getAccounts() {
 		return accounts;
 	}
 
-	public void setAccounts(List<UserAccount> accounts) {
+	public UserDto(Long id, String username,
+			@NotNull @NotEmpty @Length(min = 3, message = "username have to be more than 3 characters") String firstName,
+			@NotEmpty String lastName, @NotNull @NotEmpty String password, String matchingPassword,
+			@NotNull @NotEmpty String email, List<UserAccountDto> accounts, AddressDto primaryAddress,
+			AddressDto secondaryAddress) {
+		this.id = id;
+		this.username = username;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.password = password;
+		this.matchingPassword = matchingPassword;
+		this.email = email;
 		this.accounts = accounts;
+		this.primaryAddress = primaryAddress;
+		this.secondaryAddress = secondaryAddress;
 	}
-     
-    // standard getters and setters
+
+	public UserDto() {
+	}
+
+	// standard getters and setters
 }

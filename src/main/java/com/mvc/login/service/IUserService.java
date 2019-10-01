@@ -9,7 +9,7 @@ import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.entity.UserWithoutPassword;
+import com.mvc.login.entity.User;
 import com.mvc.login.exception.NoUserException;
 
 public interface IUserService {
@@ -30,7 +30,7 @@ public interface IUserService {
 
 	Set<AccountHistory> getAccountHistory(BalanceDto balance) throws Exception;
 
-	List<UserWithoutPassword> getUserList();
+	List<User> getUserList();
 
 	Boolean transferMoney(TransferDto transferData) throws Exception;
 

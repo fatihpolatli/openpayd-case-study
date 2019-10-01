@@ -40,7 +40,7 @@ import com.mvc.login.dto.TransferDto;
 import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.entity.UserWithoutPassword;
+import com.mvc.login.entity.User;
 import com.mvc.login.enums.AccountTransactionType;
 import com.mvc.login.service.IUserService;
 
@@ -397,7 +397,7 @@ public class MvcLoginDemoApplicationTests {
 		mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
 		mapper.configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false);
 		mapper.configure(DeserializationFeature.EAGER_DESERIALIZER_FETCH, false);
-		UserWithoutPassword us = mapper.convertValue(targetUser, UserWithoutPassword.class);
+		User us = mapper.convertValue(targetUser, User.class);
 		
 		
 		TransferDto t = new TransferDto();

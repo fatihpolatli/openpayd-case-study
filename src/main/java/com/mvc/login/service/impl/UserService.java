@@ -16,13 +16,14 @@ import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.entity.UserWithoutPassword;
+import com.mvc.login.entity.User;
 import com.mvc.login.enums.AccountTransactionType;
 import com.mvc.login.enums.AccountTypeEnum;
 import com.mvc.login.exception.AccountAlreadyExistException;
 import com.mvc.login.exception.DuplicateEmailException;
 import com.mvc.login.exception.NoUserException;
 import com.mvc.login.exception.NotEnoughBalanceException;
+import com.mvc.login.mapper.UserMapper;
 import com.mvc.login.mock.BalanceLoader;
 import com.mvc.login.service.IUserService;
 
@@ -53,16 +54,14 @@ public class UserService implements IUserService {
 
 	@Transactional
 	@Override
-	public User registerNewUserAccount(UserDto accountDto) throws Exception {
+	public User registerNewUserAccount(UserDto userDto) throws Exception {
 
-		if (emailExist(accountDto.getEmail())) {
+		if (emailExist(userDto.getEmail())) {
 			throw new DuplicateEmailException();
 		}
 
-		User user = new User();
-		user.setUsername(accountDto.getFirstName());
-		user.setPassword(passwordEncoder.encode(accountDto.getPassword()));
-		user.setEmail(accountDto.getEmail());
+		User user = UserMapper.INSTANCE.toEntity(userDto);
+		user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
 		// authorities to be granted
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
@@ -236,7 +235,7 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public List<UserWithoutPassword> getUserList() {
+	public List<User> getUserList() {
 		// TODO Auto-generated method stub
 		return userDao.findAll();
 	}

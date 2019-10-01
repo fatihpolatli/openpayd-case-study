@@ -1,21 +1,21 @@
 package com.mvc.login.dto;
 
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.entity.UserWithoutPassword;
+import com.mvc.login.entity.User;
 
 public class TransferDto{
 
-	private UserWithoutPassword targetUser;
+	private User targetUser;
 	
 	private UserAccount targetAccount;
 	
 	private BalanceDto balance;
 
-	public UserWithoutPassword getTargetUser() {
+	public User getTargetUser() {
 		return targetUser;
 	}
 
-	public void setTargetUser(UserWithoutPassword targetUser) {
+	public void setTargetUser(User targetUser) {
 		this.targetUser = targetUser;
 	}
 
