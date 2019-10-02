@@ -16,7 +16,6 @@ import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.entity.User;
 import com.mvc.login.enums.AccountTransactionType;
 import com.mvc.login.enums.AccountTypeEnum;
 import com.mvc.login.exception.AccountAlreadyExistException;
@@ -28,6 +27,7 @@ import com.mvc.login.mock.BalanceLoader;
 import com.mvc.login.service.IUserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,6 +36,7 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.stereotype.Service;
 
 @Service
+@Scope("prototype")
 public class UserService implements IUserService {
 	@Autowired
 	private IUserDao userDao;

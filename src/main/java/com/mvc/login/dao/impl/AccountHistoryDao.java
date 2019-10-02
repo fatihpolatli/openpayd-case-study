@@ -2,16 +2,18 @@ package com.mvc.login.dao.impl;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import com.mvc.login.dao.IAccountHistoryDao;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.UserAccount;
 import com.mvc.login.enums.AccountTransactionType;
 import com.mvc.login.repository.AccountHistoryRespository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 @Component
+@Scope("prototype")
 public class AccountHistoryDao implements IAccountHistoryDao {
 
 	@Autowired
