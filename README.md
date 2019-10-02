@@ -22,7 +22,7 @@ i have used hsqldb, so you dont need to set database configuration
 
 https://documenter.getpostman.com/view/56655/SVtPYrSL?version=latest
 
-##Swagger UI Link
+## Swagger UI Link
 
 http://localhost:8080/swagger-ui.html
 
