@@ -2,7 +2,7 @@ package com.mvc.login.controller;
 
 import com.mvc.login.dto.BalanceDto;
 import com.mvc.login.dto.TransferDto;
-import com.mvc.login.entity.UserAccount;
+import com.mvc.login.enums.AccountTypeEnum;
 import com.mvc.login.service.IUserService;
 import com.mvc.login.util.GenericResponse;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,22 +22,22 @@ public class UserAccountController {
 	@Autowired
 	IUserService userService;
 
-	@PostMapping(value = "/add")
-	public GenericResponse addUserAccount(@RequestBody UserAccount account) {
+	@GetMapping(value = "/add/account-types/{accountType}")
+	public GenericResponse addUserAccount(@RequestParam AccountTypeEnum accountType){
 
 		try {
-			return new GenericResponse(null, null, userService.addAcount(account));
+			return new GenericResponse(null, null, userService.addAcount(accountType));
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
 		}
 
 	}
 
-	@PostMapping(value = "/delete")
-	public GenericResponse deleteUserAccount(@RequestBody UserAccount account) {
+	@GetMapping(value = "/delete/{accountType}")
+	public GenericResponse deleteUserAccount(@RequestParam AccountTypeEnum accountType) {
 
 		try {
-			userService.deleteAccount(account);
+			userService.deleteAccount(accountType);
 			return new GenericResponse(null, null, true);
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
@@ -71,24 +72,24 @@ public class UserAccountController {
 
 	}
 
-	@PostMapping(value = "/current-balance")
-	public GenericResponse getCurrentBalance(@RequestBody BalanceDto balance) {
+	@GetMapping(value = "/current-balance/account-types/{accountType}")
+	public GenericResponse getCurrentBalance(@RequestParam AccountTypeEnum accountType) {
 
 		try {
 
-			return new GenericResponse(null, null, userService.getCurrentBalance(balance));
+			return new GenericResponse(null, null, userService.getCurrentBalance(accountType));
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
 		}
 
 	}
 
-	@PostMapping(value = "/history")
-	public GenericResponse getAccountHistory(@RequestBody BalanceDto balance) {
+	@GetMapping(value = "/history/account-types/{accountType}")
+	public GenericResponse getAccountHistory(@RequestParam AccountTypeEnum accountType) {
 
 		try {
 
-			return new GenericResponse(null, null, userService.getAccountHistory(balance));
+			return new GenericResponse(null, null, userService.getAccountHistory(accountType));
 		} catch (Exception e) {
 			return new GenericResponse(e.getMessage(), "error");
 		}

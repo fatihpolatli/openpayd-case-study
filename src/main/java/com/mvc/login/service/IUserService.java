@@ -9,7 +9,7 @@ import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.User;
 import com.mvc.login.entity.UserAccount;
-import com.mvc.login.entity.User;
+import com.mvc.login.enums.AccountTypeEnum;
 import com.mvc.login.exception.NoUserException;
 
 public interface IUserService {
@@ -20,15 +20,15 @@ public interface IUserService {
 
 	User createUserAccount(UserDto accountDto) throws Exception;
 
-	User addAcount(UserAccount account) throws Exception;
+	User addAcount(AccountTypeEnum accountType) throws Exception;
 
 	Set<UserAccount> getAccounts() throws NoUserException;
 
 	Boolean addSubtractBalance(BalanceDto balance) throws Exception;
 
-	Long getCurrentBalance(BalanceDto balance) throws Exception;
+	Long getCurrentBalance(AccountTypeEnum accountType) throws Exception;
 
-	Set<AccountHistory> getAccountHistory(BalanceDto balance) throws Exception;
+	Set<AccountHistory> getAccountHistory(AccountTypeEnum accountType) throws Exception;
 
 	List<User> getUserList();
 
@@ -36,6 +36,6 @@ public interface IUserService {
 
 	Boolean loadBalance(BalanceDto balance) throws Exception;
 
-	Boolean deleteAccount(UserAccount account) throws Exception;
+	Boolean deleteAccount(AccountTypeEnum AccountType) throws Exception;
 
 }

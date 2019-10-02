@@ -99,16 +99,16 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Boolean deleteAccount(UserAccount account) throws Exception {
+	public Boolean deleteAccount(AccountTypeEnum accountType) throws Exception {
 		// TODO Auto-generated method stub
 
 		User user = getUserInfo();
-		return userAccountDao.delete(user.getId(), account.getAccountType());
+		return userAccountDao.delete(user.getId(), accountType);
 	}
 
 	@Override
 	@Transactional
-	public User addAcount(UserAccount account) throws Exception {
+	public User addAcount(AccountTypeEnum accountType) throws Exception {
 
 		User user = getUserInfo();
 
@@ -117,7 +117,7 @@ public class UserService implements IUserService {
 		UserAccount existingAccount = null;
 		try {
 
-			existingAccount = getAccountInfo(account.getAccountType(), user.getId());
+			existingAccount = getAccountInfo(accountType, user.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -136,7 +136,7 @@ public class UserService implements IUserService {
 
 		UserAccount userAccount = new UserAccount();
 
-		userAccount.setAccountType(account.getAccountType());
+		userAccount.setAccountType(accountType);
 
 		UserAccount persistentAccount = userAccountDao.save(userAccount);
 
@@ -216,21 +216,21 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Long getCurrentBalance(BalanceDto balance) throws Exception {
+	public Long getCurrentBalance(AccountTypeEnum accountType) throws Exception {
 
 		User user = getUserInfo();
 
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getAccountType(), user.getId());
+		UserAccount userAccount = getAccountInfo(accountType, user.getId());
 
 		return userAccount.getBalance();
 	}
 
 	@Override
-	public Set<AccountHistory> getAccountHistory(BalanceDto balance) throws Exception {
+	public Set<AccountHistory> getAccountHistory(AccountTypeEnum accountType) throws Exception {
 
 		User user = getUserInfo();
 
-		UserAccount userAccount = getAccountInfo(balance.getAccount().getAccountType(), user.getId());
+		UserAccount userAccount = getAccountInfo(accountType, user.getId());
 
 		return accountHistoryDao.findByAccount(userAccount);
 	}
