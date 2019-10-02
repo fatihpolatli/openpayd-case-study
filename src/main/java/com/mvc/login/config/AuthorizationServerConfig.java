@@ -30,6 +30,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    
+    /** 
+     * @param clients
+     * @throws Exception
+     */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         // clients.jdbc(dataSource)
@@ -46,12 +51,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
          */
     }
 
+    
+    /** 
+     * @return TokenStore
+     */
     @Bean
     public TokenStore tokenStore() {
         // return new InMemoryTokenStore();
         return new JdbcTokenStore(dataSource);
     }
 
+    
+    /** 
+     * @param endpoints
+     */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);

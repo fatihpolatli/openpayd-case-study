@@ -11,7 +11,6 @@ import com.mvc.login.dao.IAccountHistoryDao;
 import com.mvc.login.dao.IUserAccountDao;
 import com.mvc.login.dao.IUserDao;
 import com.mvc.login.dto.BalanceDto;
-import com.mvc.login.dto.TransferDto;
 import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.User;
@@ -124,7 +123,7 @@ public class UserService implements IUserService {
 		UserAccount existingAccount = null;
 		try {
 
-			existingAccount = getAccountInfo(accountType, user.getId());
+			existingAccount = accounts.stream().filter(n -> n.getAccountType() == accountType).findFirst().get();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -178,6 +177,17 @@ public class UserService implements IUserService {
 	}
 
 	@Override
+	public UserAccount getAccountByType(AccountTypeEnum accountType) throws NoUserException {
+
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		User user = findByUserName(username);
+
+		return user.getAccounts().stream().filter(n -> n.getAccountType() == accountType).findFirst().get();
+
+	}
+
+	@Override
 	@Transactional
 	public Boolean addSubtractBalance(BalanceDto balance) throws Exception {
 
@@ -187,6 +197,7 @@ public class UserService implements IUserService {
 
 	}
 
+	@Override
 	public Boolean addSubtractBalanceByUser(User user, BalanceDto balance) throws Exception {
 
 		UserAccount userAccount = getAccountInfo(balance.getAccount().getAccountType(), user.getId());
@@ -244,35 +255,11 @@ public class UserService implements IUserService {
 
 	@Override
 	public List<User> getUserList() {
-		// TODO Auto-generated method stub
 		return userDao.findAll();
 	}
 
 	@Override
-	@Transactional
-	public Boolean transferMoney(TransferDto transferData) throws Exception {
-		// TODO Auto-generated method stub
-
-		User targetUser = userDao.findByUsername(transferData.getTargetUser().getUsername());
-
-		BalanceDto balanceData = transferData.getBalance();
-
-		balanceData.setType(AccountTransactionType.SUBTRACT);
-
-		addSubtractBalance(balanceData);
-
-		balanceData.setType(AccountTransactionType.ADD);
-
-		balanceData.setAccount(transferData.getTargetAccount());
-
-		addSubtractBalanceByUser(targetUser, balanceData);
-
-		return true;
-	}
-
-	@Override
 	public Boolean loadBalance(BalanceDto balance) throws Exception {
-		// TODO Auto-generated method stub
 		Boolean result = BalanceLoader.loadBalance();
 
 		if (result) {

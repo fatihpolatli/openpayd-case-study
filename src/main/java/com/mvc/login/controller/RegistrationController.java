@@ -23,6 +23,11 @@ public class RegistrationController {
 	@Autowired
 	IUserService service;
 
+	/**
+	 * register new user, create user for oauth and account
+	 * 
+	 * @param accountDto user data to register
+	 */
 	@RequestMapping(value = "/user/registration", method = RequestMethod.POST)
 	public GenericResponse registerUserAccount(@RequestBody @Valid UserDto accountDto, BindingResult result,
 			WebRequest request, Errors errors, HttpServletRequest req) throws Exception {

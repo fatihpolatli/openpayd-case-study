@@ -12,24 +12,32 @@ import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Header;
 import org.springframework.stereotype.Component;
 
+/**
+ * mock server to load balance from external source. that behaves like external
+ * system
+ * 
+ */
 @Component
 public class CardMockServer {
 
 	private ClientAndServer mockServer;
 
+	/**
+	 * start the mock server
+	 * 
+	 */
 	@PostConstruct
 	public void startServer() {
 		mockServer = startClientAndServer(1080);
 		// new MockServerClient("", 8088)
-		mockServer.when(
-				request().withMethod("POST").withPath("/loadBalance").withHeader("\"Content-type\", \"application/json\"")
-		
+		mockServer.when(request().withMethod("POST").withPath("/loadBalance")
+				.withHeader("\"Content-type\", \"application/json\"")
+
 		).respond(response().withStatusCode(200)
 				.withHeaders(new Header("Content-Type", "application/json; charset=utf-8"),
 						new Header("Cache-Control", "public, max-age=86400"))
 				.withBody("{ \"result\": true }").withDelay(TimeUnit.SECONDS, 1));
 
-		
 	}
 
 }

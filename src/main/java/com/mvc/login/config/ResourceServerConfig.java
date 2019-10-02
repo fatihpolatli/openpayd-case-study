@@ -18,6 +18,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     DataSource dataSource;
 
+    
+    /** 
+     * @param http
+     * @throws Exception
+     */
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().antMatchers("/restful/**").authenticated().and().formLogin().permitAll();

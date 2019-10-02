@@ -17,6 +17,10 @@ public class UserController {
 	@Autowired
 	IUserService userService;
 
+	/**
+	 * get list of users
+	 * 
+	 */
 	@GetMapping
 	public GenericResponse getUserList() {
 
@@ -24,6 +28,11 @@ public class UserController {
 
 	}
 
+	/**
+	 * detail of specific user
+	 * 
+	 * @param userId id of the user to fetch detail
+	 */
 	@GetMapping("{userId}")
 	public GenericResponse getUserById(@PathVariable Long userId) throws NoUserException {
 

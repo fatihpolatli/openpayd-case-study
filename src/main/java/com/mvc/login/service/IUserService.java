@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.mvc.login.dto.BalanceDto;
-import com.mvc.login.dto.TransferDto;
 import com.mvc.login.dto.UserDto;
 import com.mvc.login.entity.AccountHistory;
 import com.mvc.login.entity.User;
@@ -34,10 +33,12 @@ public interface IUserService {
 
 	List<User> getUserList();
 
-	Boolean transferMoney(TransferDto transferData) throws Exception;
-
 	Boolean loadBalance(BalanceDto balance) throws Exception;
 
 	Boolean deleteAccount(AccountTypeEnum AccountType) throws Exception;
+
+	UserAccount getAccountByType(AccountTypeEnum accountType) throws NoUserException;
+
+	Boolean addSubtractBalanceByUser(User user, BalanceDto balance) throws Exception;
 
 }

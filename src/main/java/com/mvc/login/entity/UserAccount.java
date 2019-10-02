@@ -32,42 +32,82 @@ public class UserAccount {
 
 	private Integer isDeleted = 0;
 
+	
+	/** 
+	 * @return Integer
+	 */
 	public Integer getIsDeleted() {
 		return isDeleted;
 	}
 
+	
+	/** 
+	 * @param isDeleted
+	 */
 	public void setIsDeleted(Integer isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
+	
+	/** 
+	 * @return Long
+	 */
 	public Long getUserId() {
 		return userId;
 	}
 
+	
+	/** 
+	 * @param userId
+	 */
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
 
+	
+	/** 
+	 * @return Long
+	 */
 	public Long getId() {
 		return id;
 	}
 
+	
+	/** 
+	 * @param id
+	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
+	
+	/** 
+	 * @return Long
+	 */
 	public Long getBalance() {
 		return balance;
 	}
 
+	
+	/** 
+	 * @param balance
+	 */
 	public void setBalance(Long balance) {
 		this.balance = balance;
 	}
 
+	
+	/** 
+	 * @return AccountTypeEnum
+	 */
 	public AccountTypeEnum getAccountType() {
 		return accountType;
 	}
 
+	
+	/** 
+	 * @param accountType
+	 */
 	public void setAccountType(AccountTypeEnum accountType) {
 		this.accountType = accountType;
 	}

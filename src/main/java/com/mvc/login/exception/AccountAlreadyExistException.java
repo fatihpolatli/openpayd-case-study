@@ -9,11 +9,19 @@ public class AccountAlreadyExistException extends BaseException {
 
 	private int code = 2001;
 
+	
+	/** 
+	 * @return 
+	 */
 	public AccountAlreadyExistException() {
 
 		super("there is already an account with this currency");
 	}
 
+	
+	/** 
+	 * @return int
+	 */
 	@Override
 	public int getCode() {
 		return this.code;

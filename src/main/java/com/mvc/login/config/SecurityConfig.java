@@ -26,16 +26,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserDetailsService userDetailsService;
 
+	
+	/** 
+	 * @param auth
+	 * @throws Exception
+	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource).passwordEncoder(passwordEncoder());
 	}
 
+	
+	/** 
+	 * @return PasswordEncoder
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	
+	/** 
+	 * @return AuthenticationManager
+	 * @throws Exception
+	 */
 	@Override
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -43,6 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 
+	
+	/** 
+	 * @return JdbcUserDetailsManager
+	 * @throws Exception
+	 */
 	@Bean
 	public JdbcUserDetailsManager jdbcUserDetailsManager() throws Exception {
 		JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager();

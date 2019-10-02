@@ -10,6 +10,11 @@ public abstract class BaseException extends Exception {
      */
     private static final long serialVersionUID = 48165325834513461L;
 
+    
+    /** 
+     * @param message
+     * @return 
+     */
     public BaseException(String message) {
         super(message);
     }
