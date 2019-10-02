@@ -1,7 +1,7 @@
 package com.mvc.login.exception;
 
-public class TransactionActionException extends Exception {
-	
+public class TransactionActionException extends BaseException {
+
 	/**
 	 * 
 	 */
@@ -10,6 +10,13 @@ public class TransactionActionException extends Exception {
 	public TransactionActionException() {
 
 		super("an error occured while transfering money");
+	}
+
+	private int code = 2007;
+
+	@Override
+	public int getCode() {
+		return this.code;
 	}
 
 }

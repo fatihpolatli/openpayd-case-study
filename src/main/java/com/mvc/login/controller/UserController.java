@@ -1,32 +1,34 @@
 package com.mvc.login.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import com.mvc.login.exception.NoUserException;
 import com.mvc.login.service.IUserService;
 import com.mvc.login.util.GenericResponse;
 
-@RestController
-@RequestMapping(path = "/restful/user")
-public class UserController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping(path = "/restful/users")
+public class UserController {
 
 	@Autowired
 	IUserService userService;
 
-	@GetMapping(value = "/list")
+	@GetMapping
 	public GenericResponse getUserList() {
 
-		try {
-			
-			return new GenericResponse(null, null, userService.getUserList());
-		} catch (Exception e) {
-			return new GenericResponse(e.getMessage(), "error");
-		}
+		return new GenericResponse(null, null, userService.getUserList());
 
 	}
 
+	@GetMapping("{userId}")
+	public GenericResponse getUserById(@PathVariable Long userId) throws NoUserException {
+
+		return new GenericResponse(null, null, userService.findById(userId));
+
+	}
 
 }

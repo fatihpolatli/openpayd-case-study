@@ -1,6 +1,6 @@
 package com.mvc.login.exception;
 
-public class NoAccountTypeException extends Exception {
+public class NoAccountTypeException extends BaseException {
 
 	/**
 	 * 
@@ -12,4 +12,10 @@ public class NoAccountTypeException extends Exception {
 		super("there is no such a currency");
 	}
 
+	private int code = 2003;
+
+	@Override
+	public int getCode() {
+		return this.code;
+	}
 }

@@ -1,6 +1,7 @@
 package com.mvc.login.dao.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.mvc.login.dao.IUserDao;
 import com.mvc.login.entity.User;
@@ -45,8 +46,19 @@ public class UserDao implements IUserDao {
 
 	@Override
 	public List<User> findAll() {
-		// TODO Auto-generated method stub
 		return repository.findAll();
+	}
+
+	@Override
+	public User findById(Long userId) throws NoUserException {
+		Optional<User> result = repository.findById(userId);
+
+		if(!result.isPresent()){
+
+			throw new NoUserException();
+		}
+
+		return result.get();
 	}
 
 }

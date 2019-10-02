@@ -92,6 +92,13 @@ public class UserService implements IUserService {
 	}
 
 	@Override
+	public User findById(Long userId) throws NoUserException {
+
+		return userDao.findById(userId);
+
+	}
+
+	@Override
 	public User createUserAccount(UserDto accountDto) throws Exception {
 
 		return registerNewUserAccount(accountDto);

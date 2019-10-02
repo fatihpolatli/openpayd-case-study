@@ -15,4 +15,6 @@ public interface IUserDao {
 
 	List<User> findAll();
 
+	User findById(Long userId) throws NoUserException;
+
 }

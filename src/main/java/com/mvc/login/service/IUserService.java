@@ -18,6 +18,8 @@ public interface IUserService {
 
 	User findByUserName(String username) throws NoUserException;
 
+	User findById(Long userId) throws NoUserException;
+
 	User createUserAccount(UserDto accountDto) throws Exception;
 
 	User addAcount(AccountTypeEnum accountType) throws Exception;

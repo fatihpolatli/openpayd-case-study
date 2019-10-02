@@ -1,6 +1,6 @@
 package com.mvc.login.exception;
 
-public class NotEnoughBalanceException extends Exception {
+public class NotEnoughBalanceException extends BaseException {
 
 	/**
 	 * 
@@ -10,5 +10,12 @@ public class NotEnoughBalanceException extends Exception {
 	public NotEnoughBalanceException() {
 
 		super("You dont have enough balance for this action");
+	}
+
+	private int code = 2004;
+
+	@Override
+	public int getCode() {
+		return this.code;
 	}
 }
