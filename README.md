@@ -22,6 +22,9 @@ i have used hsqldb, so you dont need to set database configuration
 
 https://documenter.getpostman.com/view/56655/SVtPYrSL?version=latest
 
+to import\
+https://www.getpostman.com/collections/fd0fda17c622a886a9fb
+
 ## Swagger UI Link
 
 http://localhost:8080/swagger-ui.html
